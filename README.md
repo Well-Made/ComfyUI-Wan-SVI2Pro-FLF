@@ -95,12 +95,6 @@ They are intended to be equivalent in this context and are provided so you can p
 
    ```bash
    cd ComfyUI/custom_nodes
-
-
-1. Go to your ComfyUI `custom_nodes` folder, for example:
-
-   ```bash
-   cd ComfyUI/custom_nodes
    ```
 
 2. Clone this repository:
