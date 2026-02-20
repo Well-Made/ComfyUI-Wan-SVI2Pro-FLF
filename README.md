@@ -1,6 +1,40 @@
 # ComfyUI-Wan-SVI2Pro-FLF
 
-Custom nodes for ComfyUI that combine Wan 2.2 SVI 2 Pro motion continuity with First/Last Frame (FLF) style control over the end of a clip, plus a small utility for trimming Wan video latents.
+Custom nodes for ComfyUI that combine SVI 2 Pro motion continuity with Wan 2.2 First/Last Frame (FLF) style control over the end of a clip, enabling smooth video generation from a sequence of frames.
+
+Feb 20, 2026 — small update: the end_samples input is now optional. Disconnect it and the node falls back to regular SVI 2 Pro behavior. This means you can connect or disconnect intermediate images at any point to give yourself more flexibility during generation. Just remember to plug it back in when you need that last-frame pull.
+
+## Examples
+
+![svi-2-pro-with-frame-to-frame-stitching-v0-38vs6y4897kg1](https://github.com/user-attachments/assets/5cdd7cf8-ba7d-4da1-8f6f-64a787fe4076)
+
+
+
+https://github.com/user-attachments/assets/90e01396-6885-4fec-99e8-91ff6c72a019
+
+
+
+<img width="1655" height="184" alt="image" src="https://github.com/user-attachments/assets/8d663756-a45d-434f-8598-ef8a60818ff9" />
+
+
+
+https://github.com/user-attachments/assets/ff88a86e-154e-4f73-8d15-1bc10201be02
+
+
+
+
+
+
+
+
+## Note
+
+This should work with your current models that already handle standard SVI 2 PRO, but I can't test every single on, it's too time-consuming. Start with your own model combo, and if the results aren't what you expect, use the finetuned model this setup was built around until a more universal solution appears. Here's the one I'm using, with speed LoRA baked in:
+
+- **High noise model**: [https://civitai.com/models/2053259?modelVersionId=2540892](https://civitai.com/models/2053259?modelVersionId=2540892) <span style="color: red; font-weight: bold;">(NSFW warning)</span>
+- **Low noise model**: [https://civitai.com/models/2053259?modelVersionId=2540896](https://civitai.com/models/2053259?modelVersionId=2540896) <span style="color: red; font-weight: bold;">(NSFW warning)</span>
+
+Any quantization should work fine.
 
 ## Nodes
 
@@ -27,7 +61,7 @@ This gives you:
 
 - `positive` / `negative` – standard ComfyUI conditionings.
 - `length` – target video length in frames. Wan video uses stride 4, so this is converted to latent T.
-- `prev_samples` – optional latents from the previous segment (`B,C,T,H,W`). The last `motion_latent_count` slots are used as motion tail.
+- `prev_samples` – latents from the previous segment (`B,C,T,H,W`). The last `motion_latent_count` slots are used as motion tail.
 - `anchor_samples` – anchor latent(s) for the current segment (`B,C,T,H,W`), usually the first frame or a short clip.
 - `end_samples` – optional target end latent(s) (`B,C,T,H,W`). The last `T_end` slots are copied into the tail of the segment and hard-locked.
 - `motion_latent_count` – how many last temporal slots to take from `prev_samples` (0 disables motion continuity; 1–2 is typical).
@@ -40,10 +74,9 @@ This gives you:
 Typical usage:
 
 - **First segment:**  
-  - `prev_samples` empty, `motion_latent_count = 0`,  
   - `anchor_samples` = first frame latent, `end_samples` = last frame latent.
 - **Subsequent segments:**  
-  - `prev_samples` = latents from previous segment (often trimmed with `WanCutLastSlot`),  
+  - `prev_samples` = latents from previous segment,  
   - `anchor_samples` = anchor for the new segment,  
   - `end_samples` = new target last frame,  
   - `motion_latent_count` = 1–2.
@@ -111,13 +144,15 @@ conditioning/video_models → Wan SVI 2 Pro FLF
 
 latent/video → Wan Cut Last Slot
 
-##License
+---
+
+## License
 
 This project is licensed under the GNU GPLv3.
 
 Some logic is adapted from:
 
-ComfyUI (Wan-related nodes, e.g. WanFirstLastFrameToVideo)
+ComfyUI (WanFirstLastFrameToVideo)
 
 ComfyUI-KJNodes (WanImageToVideoSVIPro)
 
