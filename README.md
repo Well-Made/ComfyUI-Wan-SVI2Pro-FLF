@@ -4,7 +4,7 @@ Custom nodes for ComfyUI that combine SVI 2 Pro motion continuity with Wan 2.2 F
 
 Feb 20, 2026 - small update: the end_samples input is now optional. Disconnect it and the node falls back to regular SVI 2 Pro behavior. This means you can connect or disconnect intermediate images at any point to give yourself more flexibility during generation. Just remember to plug it back in when you need that last-frame pull.
 
-Feb 20, 2026 - small update №2: Added a workflow where you can load an existing video and continue from there either by providing the next last frame, typing a prompt, or both.
+Feb 20, 2026 - update №2: Added a workflow where you can load an existing video and continue from there either by providing the next last frame, typing a prompt, or both.
 If you want to continue with prompt only, disconnect the `end_samples` input in the **WanImageToVideoSVIProFLF** node and bypass the **End Samples** subgroup. You can skip the next image, although you might need to manually provide the anchor image to the subgraph node (simply connect the `First_Frame` output of the **Video Preprocessor** node to the `First_Frame` input of your current segment or plug in any other image that fits your generation plan).
 
 
