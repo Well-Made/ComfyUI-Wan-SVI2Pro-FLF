@@ -49,7 +49,7 @@ class WanImageToVideoSVIProFLF(io.ComfyNode):
                 io.Latent.Input(
                     "prev_samples",
                     tooltip=(
-                        "Optional previous segment latents (B,C,T,H,W). "
+                        "Previous segment latents (B,C,T,H,W). "
                         "The last motion_latent_count temporal slots will be "
                         "used to continue motion (SVI Pro style)."
                     ),
@@ -63,6 +63,7 @@ class WanImageToVideoSVIProFLF(io.ComfyNode):
                 ),
                 io.Latent.Input(
                     "end_samples",
+                    optional=True,
                     tooltip=(
                         "Optional target end latent(s), in Wan video latent format (B,C,T,H,W). "
                         "The last temporal slots of this tensor will define the last slots "
