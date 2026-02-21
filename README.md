@@ -8,6 +8,12 @@ Custom nodes for ComfyUI that combine SVI 2 Pro motion continuity with Wan 2.2 F
 If you want to continue with prompt only, disconnect the `end_samples` input in the **WanImageToVideoSVIProFLF** node and bypass the **End Samples** subgroup. You can skip the next image, although you might need to manually provide the anchor image to the subgraph node (simply connect the `First_Frame` output of the **Video Preprocess** node to the `First_Frame` input of your current segment or plug in any other image that fits your generation plan).
 
 
+## Important:
+- Sometimes the VAE decoder/encoder splits latents inconsistently, and this isn't easily controllable. Because of that, two clips may not align perfectly at the seam. If you notice ghosting or doubling at the transition, there's an `overlap` slider in the **Image Batch Extend With Overlap** node (right side of the subgraph). Adjust it by one or two steps to get a clean stitch. Default settings usually work, but not always.
+- If your generated frames look washed out right before the **Image Batch Extend With Overlap** node, there's an **Adjust Contrast** node upstream. It's enabled in the Image-to-Video workflows but set to 1.0 in the Video Extension workflow. Bump it slightly - 1.2 usually does the trick, or adjust to taste.
+
+
+
 ## Examples
 
 ![svi-2-pro-with-frame-to-frame-stitching-v0-38vs6y4897kg1](https://github.com/user-attachments/assets/5cdd7cf8-ba7d-4da1-8f6f-64a787fe4076)
