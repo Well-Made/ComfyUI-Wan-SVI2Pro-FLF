@@ -7,7 +7,7 @@ Custom nodes for ComfyUI that combine SVI 2 Pro motion continuity with Wan 2.2 F
 **Feb 20, 2026** - update №2: Added a workflow where you can load an existing video and continue from there either by providing the next last frame, typing a prompt, or both.
 If you want to continue with prompt only, disconnect the `end_samples` input in the **WanImageToVideoSVIProFLF** node and bypass the **End Samples** subgroup. You may skip the next image, although you might need to manually provide the anchor image to the subgraph node (simply connect the `First_Frame` output of the **Video Preprocess** node to the `First_Frame` input of your current segment or plug in any other image that fits your generation plan).
 
-**Feb 21, 2026** - fixed an elusive bug that could sometimes cause generation to completely ignore the Last Frame. If you downloaded the workflow and node earlier, worth updating, your issue might already be resolved.
+**Feb 21, 2026** - fixed a tricky bug that could sometimes cause generation to completely ignore the Last Frame. If you downloaded the workflow and node earlier, worth updating, your issue might already be resolved.
 
 ## Important:
 - Sometimes the VAE decoder/encoder splits latents inconsistently, and this isn't easily controllable. Because of that, two clips may not align perfectly at the seam. If you notice ghosting or doubling at the transition, there's an `overlap` slider in the **Image Batch Extend With Overlap** node (right side of the subgraph). Adjust it by one or two steps to get a clean stitch. Default settings usually work, but not always.
