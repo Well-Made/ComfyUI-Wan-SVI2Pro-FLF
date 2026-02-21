@@ -1,6 +1,6 @@
 # ComfyUI-Wan-SVI2Pro-FLF
 
-Custom nodes for ComfyUI that combine SVI 2 Pro motion continuity with Wan 2.2 First/Last Frame (FLF) style control over the end of a clip, enabling smooth video generation from a sequence of frames.
+Custom nodes for ComfyUI that combine SVI 2 Pro motion continuity with Wan 2.2 First/Last Frame (FLF) style control over the end of a clip, enabling smooth video generation from a sequence of frames. The included workflows are set up for up to 7 clips, but that's not a hard limit. To extend further, just duplicate a generation group as many times as needed and connect the inputs/outputs the same way as the existing groups.
 
 **Feb 20, 2026** - small update: the end_samples input is now optional. Disconnect it and the node falls back to regular SVI 2 Pro behavior. This means you can connect or disconnect intermediate images at any point to give yourself more flexibility during generation. Just remember to plug it back in when you need that last-frame pull.
 
