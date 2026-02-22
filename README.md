@@ -138,7 +138,7 @@ This repository includes two example workflows for stitching video segments from
 
 They are intended to be equivalent in this context and are provided so you can pick whichever sampler node better fits your existing setup or personal preference.
 
-The third workflow extends existing video by dropping in intermediate frames or prompts.
+- The third workflow extends existing video by inserting subsequent target frames or prompts to guide the continuation.
 
 ---
 
