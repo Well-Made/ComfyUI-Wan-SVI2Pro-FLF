@@ -54,6 +54,19 @@ This should work with your current models that already handle standard SVI 2 PRO
 
 Any quantization should work fine.
 
+## Workflows
+
+This repository includes two example workflows for stitching video segments from images:
+
+- One uses `KSampler (Advanced)`.
+- The other uses `SamplerCustomAdvanced`.
+
+They are intended to be equivalent in this context and are provided so you can pick whichever sampler node better fits your existing setup or personal preference.
+
+- The third workflow extends existing video by inserting subsequent target frames or prompts to guide the continuation.
+
+---
+
 ## Nodes
 
 ### Wan SVI 2 Pro FLF
@@ -126,19 +139,6 @@ Typical usage:
 - After generating a segment, cut 1 temporal slot from the end before feeding it as `prev_samples` to the next `WanImageToVideoSVIProFLF` node. This removes the problematic “hard‑locked + SVI” slot and makes segment stitching more stable.
 
 This is a pragmatic workaround, not a theoretical limitation. If you ever come up with a cleaner way to reconcile SVI 2 Pro motion with fully hard‑locked end slots, you’re very welcome to share your findings with the community.
-
----
-
-## Workflows
-
-This repository includes two example workflows for stitching video segments from images:
-
-- One uses `KSampler (Advanced)`.
-- The other uses `SamplerCustomAdvanced`.
-
-They are intended to be equivalent in this context and are provided so you can pick whichever sampler node better fits your existing setup or personal preference.
-
-- The third workflow extends existing video by inserting subsequent target frames or prompts to guide the continuation.
 
 ---
 
