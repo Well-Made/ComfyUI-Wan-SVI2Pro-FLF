@@ -45,7 +45,7 @@ https://github.com/user-attachments/assets/a0da3295-3da0-439f-9e4c-c72bfa49bafa
 
 
 
-## Note
+## Models
 
 This should work with your current models that already handle standard SVI 2 PRO, but I can't test every single one. Start with your own model combo, and if the results aren't what you expect, use the finetuned model this setup was built around until a more universal solution appears. Here's the one I'm using, with speed LoRA baked in:
 
