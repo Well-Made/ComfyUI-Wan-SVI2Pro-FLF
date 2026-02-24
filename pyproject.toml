@@ -1,0 +1,13 @@
+[project]
+name = "Wan-SVI2Pro-FLF"
+description = ""
+version = "1.0.0"
+license = { file = "LICENSE" }
+
+[project.urls]
+Repository = "https://github.com/Well-Made/ComfyUI-Wan-SVI2Pro-FLF"
+
+[tool.comfy]
+PublisherId = "well-made"
+DisplayName = "Wan-SVI2Pro-FLF"
+Icon = ""
