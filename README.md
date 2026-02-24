@@ -47,7 +47,7 @@ https://github.com/user-attachments/assets/a0da3295-3da0-439f-9e4c-c72bfa49bafa
 
 ## Models
 
-This should work with your current models that already handle standard SVI 2 PRO, but I can't test every single one. Start with your own model combo, and if the results aren't what you expect, use the finetuned model this setup was built around until a more universal solution appears. Here are two option with speed LoRA baked in:
+This should work with your current models that already handle standard SVI 2 PRO, but I can't test every single one. Start with your own model combo, and if the results aren't what you expect, use the finetuned model this setup was built around until a more universal solution appears. Here are two options with speed LoRA baked in:
 
 - **SFW**: [**High noise model**](https://civitai.com/models/2053259?modelVersionId=2376074)  [**Low noise model**](https://civitai.com/models/2053259?modelVersionId=2376133)
 
