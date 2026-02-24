@@ -53,7 +53,6 @@ This should work with your current models that already handle standard SVI 2 PRO
 
 - **NSFW**: [**High noise model**](https://civitai.com/models/2053259?modelVersionId=2540892)  [**Low noise model**](https://civitai.com/models/2053259?modelVersionId=2540896)
 
-Any quantization should work fine.
 
 ## Workflows
 
