@@ -1,6 +1,6 @@
 [project]
 name = "Wan-SVI2Pro-FLF"
-description = ""
+description = "First/Last Frame control for SVI 2 PRO"
 version = "1.0.0"
 license = { file = "LICENSE" }
 
