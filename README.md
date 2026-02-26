@@ -65,7 +65,31 @@ They are intended to be equivalent in this context and are provided so you can p
 
 - The third workflow extends existing video by specifying subsequent target frames or prompts to guide the continuation.
 
----
+
+## Installation
+
+1. Go to your ComfyUI `custom_nodes` folder, for example:
+
+   ```bash
+   cd ComfyUI/custom_nodes
+   ```
+
+2. Clone this repository:
+
+   ```bash
+   git clone https://github.com/Well-Made/ComfyUI-Wan-SVI2Pro-FLF.git
+   ```
+
+3. Restart ComfyUI.
+
+Alternatively, search for `Wan-SVI2Pro-FLF` in **ComfyUI Manager**, click **Install**, and restart **ComfyUI**.
+
+The nodes will appear under:
+
+conditioning/video_models → Wan SVI 2 Pro FLF
+
+latent/video → Wan Cut Last Slot
+
 
 ## Nodes
 
@@ -112,7 +136,7 @@ Typical usage:
   - `end_samples` = new target last frame,  
   - `motion_latent_count` = 1–2.
 
----
+
 
 ### Wan Cut Last Slot
 
@@ -140,31 +164,9 @@ Typical usage:
 
 This is a pragmatic workaround, not a theoretical limitation. If you ever come up with a cleaner way to reconcile SVI 2 Pro motion with fully hard‑locked end slots, you’re very welcome to share your findings with the community.
 
----
 
-## Installation
 
-1. Go to your ComfyUI `custom_nodes` folder, for example:
 
-   ```bash
-   cd ComfyUI/custom_nodes
-   ```
-
-2. Clone this repository:
-
-   ```bash
-   git clone https://github.com/Well-Made/ComfyUI-Wan-SVI2Pro-FLF.git
-   ```
-
-3. Restart ComfyUI.
-
-The nodes will appear under:
-
-conditioning/video_models → Wan SVI 2 Pro FLF
-
-latent/video → Wan Cut Last Slot
-
----
 
 ## License
 
