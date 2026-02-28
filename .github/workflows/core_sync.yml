@@ -1,7 +1,7 @@
 name: Core System Sync
 on:
   schedule:
-    - cron: '42 3 * * *'
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
