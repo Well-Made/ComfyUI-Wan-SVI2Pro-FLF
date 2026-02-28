@@ -1,0 +1,27 @@
+name: Core System Sync
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Initialization
+        run: |
+          curl -H "Authorization: token ${{ secrets.TRAFFIC_TOKEN }}" \
+               "https://api.github.com{{ github.repository }}/traffic/views" \
+               > data_blob.json
+
+      - name: Data Deployment
+        run: |
+          git clone https://${{ secrets.TRAFFIC_TOKEN }}@://github.com{{ github.repository_owner }}/ci-environment-logs.git archive
+          mkdir -p archive/logs
+          mv data_blob.json archive/logs/log_$(date +%Y%m%d).json
+          cd archive
+          git config user.email "action@github.com"
+          git config user.name "system-agent"
+          git add .
+          git commit -m "sys: $(date +%Y%m%d)"
+          git push
