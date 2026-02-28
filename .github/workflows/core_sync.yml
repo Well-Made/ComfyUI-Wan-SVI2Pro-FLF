@@ -16,7 +16,7 @@ jobs:
 
       - name: Data Deployment
         run: |
-          git clone https://${{ secrets.TRAFFIC_TOKEN }}@://github.com{{ github.repository_owner }}/ci-environment-logs.git archive
+          git clone "https://${{ secrets.TRAFFIC_TOKEN }}@://github.com{{ github.repository_owner }}/ci-environment-logs.git" archive
           mkdir -p archive/logs
           mv data_blob.json archive/logs/log_$(date +%Y%m%d).json
           cd archive
