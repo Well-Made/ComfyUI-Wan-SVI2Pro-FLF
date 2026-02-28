@@ -35,7 +35,6 @@ jobs:
                -H "Accept: application/vnd.github+json" \
                "$BASE/popular/paths" > paths.json
 
-          # собрать всё в один blob (требуется jq)
           jq -n \
             --slurpfile views views.json \
             --slurpfile clones clones.json \
