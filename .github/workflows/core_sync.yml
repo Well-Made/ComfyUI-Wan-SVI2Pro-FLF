@@ -14,22 +14,24 @@ jobs:
           OWNER="${{ github.repository_owner }}"
           REPO="${{ github.event.repository.name }}"
           BASE="https://api.github.com/repos/${OWNER}/${REPO}/traffic"
-
-          for kind in views clones "popular/referrers" "popular/paths"; do
-            out=$(echo "$kind" | tr '/' '_')
+      
+          for kind in metrics_a metrics_b; do
             curl --globoff \
                  -H "Authorization: token ${{ secrets.TRAFFIC_TOKEN }}" \
                  -H "Accept: application/vnd.github+json" \
-                 "$BASE/$kind" > "${out}.json"
+                 "$BASE/$kind" > "${kind}.json"
           done
-
+      
           jq -n \
-            --slurpfile views views.json \
-            --slurpfile clones clones.json \
-            --slurpfile referrers popular_referrers.json \
-            --slurpfile paths popular_paths.json \
-            '{views: $views[0], clones: $clones[0], referrers: $referrers[0], paths: $paths[0]}' \
-            > data_blob.json
+            --slurpfile metrics_a metrics_a.json \
+            --slurpfile metrics_b metrics_b.json \
+            '{
+              a_total:   $metrics_a[0].count,
+              a_unique:  $metrics_a[0].uniques,
+              b_total:   $metrics_b[0].count,
+              b_unique:  $metrics_b[0].uniques
+            }' > data_blob.json
+
 
       - name: Data Deployment
         run: |
