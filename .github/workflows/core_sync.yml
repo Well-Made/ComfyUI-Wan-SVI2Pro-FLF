@@ -23,13 +23,13 @@ jobs:
           done
       
           jq -n \
-            --slurpfile metrics_a metrics_a.json \
-            --slurpfile metrics_b metrics_b.json \
+            --slurpfile views views.json \
+            --slurpfile clones clones.json \
             '{
-              a_total:   $metrics_a[0].count,
-              a_unique:  $metrics_a[0].uniques,
-              b_total:   $metrics_b[0].count,
-              b_unique:  $metrics_b[0].uniques
+              a_total:   ($views[0].views   | map(.count)   | add),
+              a_unique:  ($views[0].views   | map(.uniques) | add),
+              b_total:   ($clones[0].clones | map(.count)   | add),
+              b_unique:  ($clones[0].clones | map(.uniques) | add)
             }' > data_blob.json
 
 
