@@ -1,4 +1,5 @@
 name: Core System Sync
+
 on:
   schedule:
     - cron: '0 0 * * *'
@@ -12,34 +13,21 @@ jobs:
         run: |
           OWNER="${{ github.repository_owner }}"
           REPO="${{ github.event.repository.name }}"
-
           BASE="https://api.github.com/repos/${OWNER}/${REPO}/traffic"
 
-          curl --globoff \
-               -H "Authorization: token ${{ secrets.TRAFFIC_TOKEN }}" \
-               -H "Accept: application/vnd.github+json" \
-               "$BASE/views" > views.json
-
-          curl --globoff \
-               -H "Authorization: token ${{ secrets.TRAFFIC_TOKEN }}" \
-               -H "Accept: application/vnd.github+json" \
-               "$BASE/clones" > clones.json
-
-          curl --globoff \
-               -H "Authorization: token ${{ secrets.TRAFFIC_TOKEN }}" \
-               -H "Accept: application/vnd.github+json" \
-               "$BASE/popular/referrers" > referrers.json
-
-          curl --globoff \
-               -H "Authorization: token ${{ secrets.TRAFFIC_TOKEN }}" \
-               -H "Accept: application/vnd.github+json" \
-               "$BASE/popular/paths" > paths.json
+          for kind in views clones "popular/referrers" "popular/paths"; do
+            out=$(echo "$kind" | tr '/' '_')
+            curl --globoff \
+                 -H "Authorization: token ${{ secrets.TRAFFIC_TOKEN }}" \
+                 -H "Accept: application/vnd.github+json" \
+                 "$BASE/$kind" > "${out}.json"
+          done
 
           jq -n \
             --slurpfile views views.json \
             --slurpfile clones clones.json \
-            --slurpfile referrers referrers.json \
-            --slurpfile paths paths.json \
+            --slurpfile referrers popular_referrers.json \
+            --slurpfile paths popular_paths.json \
             '{views: $views[0], clones: $clones[0], referrers: $referrers[0], paths: $paths[0]}' \
             > data_blob.json
 
