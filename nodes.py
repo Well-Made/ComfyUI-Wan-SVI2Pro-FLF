@@ -1,5 +1,4 @@
 import torch
-import numpy as np
 
 import comfy.model_management
 import comfy.latent_formats
@@ -9,10 +8,11 @@ from comfy_api.latest import io
 import node_helpers
 
 
+
 class WanImageToVideoSVIProFLF(io.ComfyNode):
+
     """
     WanImageToVideoSVIProFLF
-
     Combines Wan SVI 2 Pro–style motion continuity with FLF-style
     (First/Last Frame) control over the end of the clip.
 
@@ -25,6 +25,14 @@ class WanImageToVideoSVIProFLF(io.ComfyNode):
     - anchor_samples: first frame (or short latent clip) of this segment.
     - prev_samples: tail latents from the previous segment to continue motion.
     - end_samples: last frame (or short latent clip) that should define the end.
+
+    ---
+    License: GPL-3.0
+    Based on:
+      - WanImageToVideoSVIPro: https://github.com/kijai/ComfyUI-KJNodes
+      - WanFirstLastFrameToVideo: https://github.com/Comfy-Org/ComfyUI
+    Author: Well-Made
+    Repository: https://github.com/Well-Made/ComfyUI-Wan-SVI2Pro-FLF
     """
 
     @classmethod
@@ -70,6 +78,15 @@ class WanImageToVideoSVIProFLF(io.ComfyNode):
                         "of the clip (FLF-style hard lock)."
                     ),
                 ),
+                io.Boolean.Input(
+                    "use_end_samples",
+                    default=True,
+                    tooltip=(
+                        "If enabled, the node will use end_samples (when connected) to hard-lock "
+                        "the last temporal slots of the clip. If disabled, behavior falls back "
+                        "to pure SVI Pro even if end_samples is provided."
+                    ),
+                ),
                 io.Int.Input(
                     "motion_latent_count",
                     default=1,
@@ -97,8 +114,9 @@ class WanImageToVideoSVIProFLF(io.ComfyNode):
         length,
         prev_samples=None,
         anchor_samples=None,
-        motion_latent_count=1,
         end_samples=None,
+        use_end_samples=True,
+        motion_latent_count=1,
     ) -> io.NodeOutput:
         """
         Execution logic:
@@ -107,8 +125,9 @@ class WanImageToVideoSVIProFLF(io.ComfyNode):
           motion tail taken from the end of prev_samples (SVI Pro continuity).
         - Padding: extend this block to the required temporal length for Wan
           (total_latents) using Wan-formatted zero latents.
-        - End: overwrite the last temporal slots with end_samples (if provided),
-          and hard-lock them via the concat_mask (FLF-style control).
+        - End: overwrite the last temporal slots with end_samples (if provided
+          and use_end_samples is True), and hard-lock them via the concat_mask
+          (FLF-style control).
         """
 
         # Anchor latent for this segment: [B, C, T_anchor, H, W]
@@ -170,11 +189,11 @@ class WanImageToVideoSVIProFLF(io.ComfyNode):
             image_cond_latent = image_cond_latent[:, :, :total_latents]
 
         # ---------------------------------------------------------------------
-        # 3) End behavior like WanFirstLastFrameToVideoLatent (FLF-style):
-        #    hard-lock the last frames to end_samples, if provided.
+        # 3) End behavior like WanFirstLastFrameToVideo (FLF-style):
+        #    hard-lock the last frames to end_samples, if enabled and provided.
         # ---------------------------------------------------------------------
         end_t_fix = 0
-        if end_samples is not None:
+        if use_end_samples and end_samples is not None:
             # [B_end, C, T_end, H, W] or [1, C, T_end, H, W]
             end_latent = end_samples["samples"].clone()
 
@@ -215,7 +234,8 @@ class WanImageToVideoSVIProFLF(io.ComfyNode):
         # ---------------------------------------------------------------------
         # 5) Mask:
         #    - First temporal slot (anchor) is fixed: mask=0 at t=0.
-        #    - Last end_t_fix slots are fixed if end_samples is provided.
+        #    - Last end_t_fix slots are fixed if end_samples is provided
+        #      and use_end_samples is True.
         #
         # Wan / SVI Pro use concat_mask==0 to mark slots that should stay
         # equal to concat_latent_image during sampling.
@@ -253,16 +273,21 @@ class WanImageToVideoSVIProFLF(io.ComfyNode):
         return io.NodeOutput(positive, negative, out_latent)
 
 
+
 class WanCutLastSlot(io.ComfyNode):
+
     """
     WanCutLastSlot
-
     Utility node for Wan video latents: trims a number of temporal slots
     from the end of a latent clip.
-
     In Wan 2.2, 1 temporal slot corresponds to 4 video frames (stride = 4),
     so cutting 1 slot effectively removes the last 4 frames worth of latent
     information from the sequence.
+
+    ---
+    License: GPL-3.0
+    Original work by Well-Made.
+    Repository: https://github.com/Well-Made/ComfyUI-Wan-SVI2Pro-FLF
     """
 
     @classmethod
