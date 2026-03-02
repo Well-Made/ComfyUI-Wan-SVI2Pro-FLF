@@ -9,6 +9,8 @@ If you want to continue with prompt only, disconnect the `end_samples` input in 
 
 **Feb 21, 2026** - fixed a tricky bug that could sometimes cause generation to completely ignore the Last Frame. If you downloaded the workflow and node earlier, worth updating, your issue might already be resolved.
 
+**Mar 02, 2026** - Added a switch to enable/disable `end_samples` (Last Frame) directly, without manually connecting/disconnecting inputs. This toggles the First/Last Frame functionality.
+
 ## Important:
 - Sometimes the VAE decoder/encoder splits latents inconsistently, and this isn't easily controllable. Because of that, two clips may not align perfectly at the seam. If you notice ghosting or doubling at the transition, there's an `overlap` slider in the **Image Batch Extend With Overlap** node (right side of the subgraph). Adjust it by one or two steps to get a clean stitch. Default settings usually work, but not always.
 - If your generated frames look washed out, right before the **Image Batch Extend With Overlap** node there's an **Adjust Contrast** node. It's enabled in the Images-to-Video workflows but set to 1.0 in the Video Extension workflow. Bump it slightly - 1.2 usually does the trick, or adjust to taste.
