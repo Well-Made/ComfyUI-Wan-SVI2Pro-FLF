@@ -18,7 +18,7 @@ class WanImageToVideoSVIProFLF(io.ComfyNode):
 
     - Start: behaves like WanImageToVideoSVIPro (anchor frame + optional motion
       continuation from prev_samples, SVI Pro style).
-    - End: behaves like WanFirstLastFrameToVideoLatent / FLF2V, where the last
+    - End: behaves like WanFirstLastFrameToVideo / FLF2V, where the last
       temporal slots are hard-locked to the provided end_samples block.
 
     Typical use:
