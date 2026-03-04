@@ -9,7 +9,7 @@ If you want to continue with prompt only, disconnect the `end_samples` input in 
 
 **Feb 21, 2026** - fixed a tricky bug that could sometimes cause generation to completely ignore the Last Frame. If you downloaded the workflow and node earlier, worth updating, your issue might already be resolved.
 
-**Mar 02, 2026** - Added a switch to enable/disable `end_samples` (Last Frame) directly, without manually connecting/disconnecting inputs. This toggles the First/Last Frame functionality.
+**Mar 02, 2026** - Added a switch to enable/disable `end_samples` (Last Frame) directly, without manually connecting/disconnecting inputs. This toggles the First/Last Frame functionality (feature suggested by [javawock7618](https://github.com/javawock7618)).
 
 ## Important:
 - Sometimes the VAE decoder/encoder splits latents inconsistently, and this isn't easily controllable. Because of that, two clips may not align perfectly at the seam. If you notice ghosting or doubling at the transition, there's an `overlap` slider in the **Image Batch Extend With Overlap** node (right side of the subgraph). Adjust it by one or two steps to get a clean stitch. Default settings usually work, but not always.
